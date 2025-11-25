@@ -23,27 +23,25 @@ CursorRunner - это приложение для macOS, которое созд
 1. Скачайте `run2.app` из релизов.
 2. Запустите приложение двойным кликом.
 
-### Сборка из исходников и обход предупреждений macOS
+Сборка из исходников и обход предупреждений macOS
 
 1. Клонируйте репозиторий:
    ```
    git clone https://github.com/yourusername/CursorRunner.git
    cd CursorRunner
    ```
-
 2. Соберите приложение с указанием минимальной версии macOS (например, 10.15):
    ```
-   clang++ -mmacosx-version-min=10.15 -framework ApplicationServices -framework AppKit -framework CoreFoundation -framework IOKit main2.mm -o main2
+   clang++ -mmacosx-version-min=10.15 -framework ApplicationServices -framework AppKit -framework CoreFoundation -framework IOKit main2.mm -o CursorRunner
    ```
-
 3. Создайте .app пакет:
    ```
-   mkdir -p run2.app/Contents/MacOS
-   cp main2 run2.app/Contents/MacOS/run
-   chmod +x run2.app/Contents/MacOS/run
+   mkdir -p CursorRunner.app/Contents/MacOS
+   cp CursorRunner CursorRunner.app/Contents/MacOS/CursorRunner
+   chmod +x CursorRunner.app/Contents/MacOS/CursorRunner
    ```
 
-4. Создайте (или обновите) файл Info.plist в `run2.app/Contents/` с добавленными ключами разрешений:
+4. Создайте (или обновите) файл Info.plist в `CursorRunner.app/Contents/` с добавленными ключами разрешений:
    ```xml
    <key>NSScreenCaptureUsageDescription</key>
    <string>Приложению требуется доступ к захвату экрана для работы эффекта курсора.</string>
@@ -53,16 +51,16 @@ CursorRunner - это приложение для macOS, которое созд
 
 5. Подпишите приложение (здесь показана ad-hoc подпись; для распространения используйте сертификат Apple Developer ID):
    ```
-   codesign -s - run2.app
+   codesign -s - CursorRunner.app
    ```
 
 6. Для полного избегания предупреждений рекомендуется:
    - Подписывать приложение с действующим сертификатом Apple Developer ID.
    - Выполнить нотарификацию приложения через Apple.
-
-## Использование
-
-1. Запустите `run2.app`.
+ 
+ ## Использование
+ 
+ 1. Запустите `CursorRunner.app`.
 2. Приложение захватит скриншот и начнет хаотично двигать курсор, рисуя траекторию.
 3. Для выхода просто подвиньте мышь.
 
