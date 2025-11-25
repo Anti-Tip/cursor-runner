@@ -23,7 +23,7 @@ CursorRunner - это приложение для macOS, которое созд
 1. Скачайте `run2.app` из релизов.
 2. Запустите приложение двойным кликом.
 
-### Сборка из исходников
+### Сборка из исходников и обход предупреждений macOS
 
 1. Клонируйте репозиторий:
    ```
@@ -31,25 +31,40 @@ CursorRunner - это приложение для macOS, которое созд
    cd CursorRunner
    ```
 
-2. Соберите приложение:
+2. Соберите приложение с указанием минимальной версии macOS (например, 10.15):
    ```
-   clang++ -framework ApplicationServices -framework AppKit -framework CoreFoundation -framework IOKit main2.mm -o main2
+   clang++ -mmacosx-version-min=10.15 -framework ApplicationServices -framework AppKit -framework CoreFoundation -framework IOKit main2.mm -o main2
    ```
 
-3. Создайте .app пакет (опционально):
+3. Создайте .app пакет:
    ```
    mkdir -p run2.app/Contents/MacOS
    cp main2 run2.app/Contents/MacOS/run
    chmod +x run2.app/Contents/MacOS/run
-   # Создайте Info.plist и PkgInfo по необходимости
+   ```
+
+4. Создайте (или обновите) файл Info.plist в `run2.app/Contents/` с добавленными ключами разрешений:
+   ```xml
+   <key>NSScreenCaptureUsageDescription</key>
+   <string>Приложению требуется доступ к захвату экрана для работы эффекта курсора.</string>
+   <key>NSAccessibilityUsageDescription</key>
+   <string>Приложению требуется доступ к управлению курсором мыши.</string>
+   ```
+
+5. Подпишите приложение (здесь показана ad-hoc подпись; для распространения используйте сертификат Apple Developer ID):
+   ```
    codesign -s - run2.app
    ```
+
+6. Для полного избегания предупреждений рекомендуется:
+   - Подписывать приложение с действующим сертификатом Apple Developer ID.
+   - Выполнить нотарификацию приложения через Apple.
 
 ## Использование
 
 1. Запустите `run2.app`.
-2. Приложение захватит скриншот и начнет двигать курсор хаотично, рисуя траекторию.
-3. Чтобы выйти, просто подвиньте мышь - приложение закроется.
+2. Приложение захватит скриншот и начнет хаотично двигать курсор, рисуя траекторию.
+3. Для выхода просто подвиньте мышь.
 
 ## Предупреждение
 
@@ -66,3 +81,5 @@ Pull requests приветствуются. Для крупных изменен
 ## Контакт
 
 Если есть вопросы, создайте issue в репозитории.
+   codesign -s - run2.app
+   chmod +x run2.app/Contents/MacOS/run
